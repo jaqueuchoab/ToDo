@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  width: 100vw;
+  height: 100vh;
 }
 
 .logo {
@@ -39,4 +42,19 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.add-todo {
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+.add-todo input{
+  width: 100%;
+}
+
+.todos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
