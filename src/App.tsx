@@ -10,7 +10,18 @@ export type Todo = {
 
 function App() {
   const [todoInput, setTodoInput] = React.useState('');
-  const [todos, setTodos] = React.useState<Todo[]>([]);
+  const [todos, setTodos] = React.useState<Todo[]>(() => {
+    const storedTodos = localStorage.getItem('todos');
+    if(storedTodos) {
+      return JSON.parse(storedTodos);
+    }
+
+    return [];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
 
   function addTodo() {
     setTodos((previousTodos) => [
@@ -18,10 +29,22 @@ function App() {
       { id: Math.random(), title: todoInput, completed: false },
     ]);
 
-    setTodoInput('')
+    setTodoInput('');
   }
 
-  function handleInputChange(e) {
+  function completeTodo(id: number) {
+    setTodos((previousTodos) =>
+      previousTodos.map((todo) => {
+        return todo.id !== id ? todo : { ...todo, completed: !todo.completed };
+      }),
+    );
+  }
+
+  function deleteTodo(id: number) {
+    setTodos((previousTodos) => previousTodos.filter((todo) => todo.id !== id))
+  }
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTodoInput(e.target.value);
   }
 
@@ -38,7 +61,7 @@ function App() {
       </div>
 
       {todos.map((todo: Todo) => {
-        return <Card key={todo.id} todo={todo} />;
+        return <Card key={todo.id} todo={todo} completeTodo={completeTodo} deleteTodo={deleteTodo}/>;
       })}
     </div>
   );

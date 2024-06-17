@@ -1,6 +1,7 @@
 .card {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   border-radius: 8px;
   background-color: #414141;

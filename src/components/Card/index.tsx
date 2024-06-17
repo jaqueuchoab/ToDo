@@ -4,15 +4,17 @@ import './style.css';
 
 type CardProps = {
   todo: Todo;
+  completeTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
 };
 
-const Card = ({ todo }: CardProps) => {
+const Card = ({ todo, completeTodo, deleteTodo }: CardProps) => {
   return (
-    <div className="card">
+    <div className={`card ${todo.completed ? 'done' : ''}`}>
       <h2>{todo.title}</h2>
       <div className="card-buttons">
-        <button>Completar</button>
-        <button>Deletar</button>
+        <button onClick={() => {completeTodo(todo.id)}}>{todo.completed ? 'Retormar' : 'Completar'}</button>
+        <button onClick={() => {deleteTodo(todo.id)}}>Deletar</button>
       </div>
     </div>
   );
